@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>تقسيم البوالص 15×10</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2b1f5c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="البوالص">
+<link rel="apple-touch-icon" href="icon-512.png">
+<link rel="icon" href="icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f2ee; --card:#ffffff; --ink:#1d1b26; --muted:#6b6878; --line:#dcd8d0;
+  --accent:#e0312f; --accent-ink:#fff; --navy:#2b1f5c; --ok:#1f7a4d;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15141b; --card:#1f1d28; --ink:#eeecf5; --muted:#a19eb0; --line:#34313f;
+    --navy:#b8aef0; --ok:#5fcf95;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15141b; --card:#1f1d28; --ink:#eeecf5; --muted:#a19eb0; --line:#34313f;
+  --navy:#b8aef0; --ok:#5fcf95;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;line-height:1.6}
+.wrap{max-width:880px;margin:0 auto;padding:28px 18px 48px}
+h1{font-size:1.6rem;margin:0 0 4px;color:var(--navy)}
+h1 span{color:var(--accent)}
+.sub{color:var(--muted);margin:0 0 22px}
+.drop{border:2px dashed var(--line);background:var(--card);border-radius:14px;
+  padding:34px 18px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+.drop.over{border-color:var(--accent)}
+.drop strong{display:block;font-size:1.1rem;margin-bottom:4px}
+.drop small{color:var(--muted)}
+input[type=file]{display:none}
+.opts{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin:18px 0 6px;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.opts label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.opts .grp{display:flex;gap:14px;align-items:center}
+.opts .ttl{color:var(--muted);font-size:.9rem}
+.status{margin:14px 0;min-height:1.6em;color:var(--muted)}
+.status.ok{color:var(--ok);font-weight:600}
+.status.err{color:var(--accent);font-weight:600}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:11px 20px;cursor:pointer}
+.primary{background:var(--accent);color:var(--accent-ink)}
+.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.thumb{background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px;position:relative}
+.thumb canvas{width:100%;height:auto;display:block}
+.thumb .n{position:absolute;top:6px;left:6px;background:var(--navy);color:#fff;font-size:.75rem;
+  border-radius:6px;padding:0 7px}
+:root[data-theme="dark"] .thumb .n{color:#15141b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .thumb .n{color:#15141b}}
+@media (max-width:560px){
+  .wrap{padding:18px 14px 36px}
+  h1{font-size:1.35rem}
+  .drop{padding:28px 14px}
+  .opts{flex-direction:column;align-items:flex-start}
+  .opts .grp{flex-wrap:wrap;gap:8px 14px}
+  .actions button{flex:1 1 100%;padding:14px}
+  .grid{grid-template-columns:1fr 1fr;gap:8px}
+}
+.note{color:var(--muted);font-size:.88rem;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>تقسيم البوالص <span>15×10</span></h1>
+  <p class="sub">ارفع ملف البوالص (2 في الصفحة) وهيطلعلك PDF كل بوليصة في صفحة لوحدها.</p>
+
+  <label class="drop" id="drop">
+    <strong>اضغط هنا واختار ملف البوالص PDF</strong>
+    <small>ممكن ترفع أكتر من ملف مرة واحدة، وهيتجمعوا بالترتيب</small>
+    <input type="file" id="file" accept="application/pdf" multiple>
+  </label>
+
+  <div class="opts">
+    <div class="grp"><span class="ttl">اتجاه الصفحة:</span>
+      <label><input type="radio" name="orient" value="land" checked> بالعرض (15×10)</label>
+      <label><input type="radio" name="orient" value="port"> طولي (10×15) لطابعة بتسحب طولي</label>
+    </div>
+    <div class="grp"><span class="ttl">الهامش:</span>
+      <label><input type="radio" name="margin" value="2"> 2 مم</label>
+      <label><input type="radio" name="margin" value="4" checked> 4 مم</label>
+      <label><input type="radio" name="margin" value="6"> 6 مم</label>
+    </div>
+  </div>
+
+  <div class="status" id="status"></div>
+  <div class="actions">
+    <button class="primary" id="save" disabled>تحميل PDF</button>
+    <button class="ghost" id="reset" disabled>ملف جديد</button>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <p class="note">الملف بيتعالج على جهازك بس، مفيش حاجة بتترفع لأي مكان. وانت بتطبع اختار Actual size / 100%.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script>
+(function(){
+  const MM = 72/25.4, W = 150*MM, H = 100*MM;
+  const $ = id => document.getElementById(id);
+  const statusEl = $('status'), grid = $('grid'), saveBtn = $('save'), resetBtn = $('reset');
+  let files = [], outBytes = null, downloads = null;
+
+  try { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; } catch(e){}
+
+  if (window.claude && claude.use) {
+    claude.use('downloads').then(d => { downloads = d; }).catch(()=>{});
+  }
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  }
+
+  function setStatus(msg, cls){ statusEl.textContent = msg; statusEl.className = 'status' + (cls ? ' ' + cls : ''); }
+  const opt = name => document.querySelector('input[name="'+name+'"]:checked').value;
+
+  // Find each label's box on a rendered page (canvas px at scale 1 = PDF points)
+  function detectLabels(ctx, w, h){
+    const d = ctx.getImageData(0,0,w,h).data;
+    const dark = new Uint8Array(w*h);
+    for (let i=0,p=0;i<w*h;i++,p+=4){
+      const lum = 0.299*d[p]+0.587*d[p+1]+0.114*d[p+2];
+      dark[i] = (d[p+3] > 0 && lum < 150) ? 1 : 0;
+    }
+    const cnt = new Uint32Array(w);
+    for (let y=0;y<h;y++) for (let x=0;x<w;x++) cnt[x]+=dark[y*w+x];
+    let L=0, R=w-1, bl=-1, br=-1;
+    for (let x=0;x<w/2;x++) if (cnt[x]>bl){bl=cnt[x];L=x;}
+    for (let x=Math.floor(w/2);x<w;x++) if (cnt[x]>br){br=cnt[x];R=x;}
+    const segs=[]; let s=null, last=0;
+    for (let y=0;y<h;y++){
+      let on=false;
+      for (let x=Math.max(0,L-1);x<=Math.min(w-1,L+1);x++) if (dark[y*w+x]) on=true;
+      if (on){ if (s===null) s=y; last=y; }
+      else if (s!==null && y-last>2){ if (last-s>100) segs.push([s,last]); s=null; }
+    }
+    if (s!==null && last-s>100) segs.push([s,last]);
+    if (segs.length && bl>100 && br>100 && R-L>100){
+      return segs.map(([t,b]) => ({x0:L-3, x1:R+3, y0:t-3, y1:b+3}));
+    }
+    // fallback: whole content bbox as one label
+    let minX=w,minY=h,maxX=0,maxY=0;
+    for (let y=0;y<h;y++) for (let x=0;x<w;x++) if (dark[y*w+x]){
+      if(x<minX)minX=x; if(x>maxX)maxX=x; if(y<minY)minY=y; if(y>maxY)maxY=y;
+    }
+    if (maxX<=minX) return [{x0:0,x1:w,y0:0,y1:h}];
+    return [{x0:minX-4,x1:maxX+4,y0:minY-4,y1:maxY+4}];
+  }
+
+  async function process(){
+    if (!files.length) return;
+    outBytes = null; saveBtn.disabled = true; grid.innerHTML = '';
+    const margin = parseFloat(opt('margin'))*MM, portrait = opt('orient') === 'port';
+    const { PDFDocument, degrees } = PDFLib;
+    const out = await PDFDocument.create();
+    let total = 0;
+    try {
+      for (let f=0; f<files.length; f++){
+        const buf = await files[f].arrayBuffer();
+        const pdfjsDoc = await pdfjsLib.getDocument({data: new Uint8Array(buf.slice(0)), isEvalSupported:false}).promise;
+        const src = await PDFDocument.load(buf.slice(0), {ignoreEncryption:true});
+        const srcPages = src.getPages();
+        for (let i=1; i<=pdfjsDoc.numPages; i++){
+          setStatus('بيجهز ملف ' + (f+1) + ' من ' + files.length + ' — صفحة ' + i + ' من ' + pdfjsDoc.numPages + '...');
+          const pg = await pdfjsDoc.getPage(i);
+          const vp = pg.getViewport({scale:1});
+          const c = document.createElement('canvas');
+          c.width = Math.ceil(vp.width); c.height = Math.ceil(vp.height);
+          const ctx = c.getContext('2d', {willReadFrequently:true});
+          ctx.fillStyle='#fff'; ctx.fillRect(0,0,c.width,c.height);
+          await pg.render({canvasContext:ctx, viewport:vp}).promise;
+          const boxes = detectLabels(ctx, c.width, c.height);
+          for (const b of boxes){
+            const p1 = vp.convertToPdfPoint(b.x0, b.y0), p2 = vp.convertToPdfPoint(b.x1, b.y1);
+            const bb = { left:Math.min(p1[0],p2[0]), right:Math.max(p1[0],p2[0]),
+                         bottom:Math.min(p1[1],p2[1]), top:Math.max(p1[1],p2[1]) };
+            const emb = await out.embedPage(srcPages[i-1], bb);
+            const bw = bb.right-bb.left, bh = bb.top-bb.bottom;
+            const s = Math.min((W-2*margin)/bw, (H-2*margin)/bh);
+            const page = out.addPage([W,H]);
+            page.drawPage(emb, { x:(W-bw*s)/2, y:(H-bh*s)/2, xScale:s, yScale:s });
+            if (portrait) page.setRotation(degrees(90));
+            total++;
+          }
+        }
+      }
+      outBytes = await out.save();
+      setStatus('تمام — ' + total + ' بوليصة جاهزة للتحميل', 'ok');
+      saveBtn.disabled = false; resetBtn.disabled = false;
+      renderPreview(outBytes);
+    } catch(e){
+      console.error(e);
+      setStatus('حصلت مشكلة في قراءة الملف: ' + (e && e.message ? e.message : e), 'err');
+      resetBtn.disabled = false;
+    }
+  }
+
+  async function renderPreview(bytes){
+    const doc = await pdfjsLib.getDocument({data: bytes.slice(0), isEvalSupported:false}).promise;
+    for (let i=1;i<=doc.numPages;i++){
+      const pg = await doc.getPage(i);
+      const vp = pg.getViewport({scale:0.9});
+      const c = document.createElement('canvas');
+      c.width = vp.width; c.height = vp.height;
+      const box = document.createElement('div'); box.className='thumb';
+      const n = document.createElement('span'); n.className='n'; n.textContent = i;
+      box.appendChild(c); box.appendChild(n); grid.appendChild(box);
+      await pg.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
+    }
+  }
+
+  function fileName(){
+    const d = new Date(), z = n => String(n).padStart(2,'0');
+    return 'labels_15x10_' + d.getFullYear() + '-' + z(d.getMonth()+1) + '-' + z(d.getDate()) + '.pdf';
+  }
+
+  saveBtn.addEventListener('click', async () => {
+    if (!outBytes) return;
+    if (!downloads){
+      const url = URL.createObjectURL(new Blob([outBytes], {type:'application/pdf'}));
+      const a = document.createElement('a'); a.href = url; a.download = fileName();
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      return;
+    }
+    try {
+      await downloads.save({ filename:fileName(), data:new Blob([outBytes], {type:'application/pdf'}) });
+    } catch(e){
+      if (e && e.code === 'declined') return;
+      if (e && e.code === 'rate_limited'){ setStatus('استنى ثانية وجرب تاني', 'err'); return; }
+      setStatus('مقدرتش أحمل الملف' + (e && e.code ? ' (' + e.code + ')' : ''), 'err');
+    }
+  });
+
+  resetBtn.addEventListener('click', () => {
+    files = []; outBytes = null; grid.innerHTML=''; setStatus('');
+    saveBtn.disabled = true; resetBtn.disabled = true; $('file').value='';
+  });
+
+  function take(list){
+    files = Array.from(list).filter(f => f.type === 'application/pdf' || /\.pdf$/i.test(f.name));
+    if (!files.length){ setStatus('اختار ملف PDF', 'err'); return; }
+    process();
+  }
+  $('file').addEventListener('change', e => take(e.target.files));
+  const drop = $('drop');
+  ['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', e => take(e.dataTransfer.files));
+  document.querySelectorAll('input[name="orient"],input[name="margin"]').forEach(r =>
+    r.addEventListener('change', () => { if (files.length) process(); }));
+})();
+</script>
+</body>
+</html>
